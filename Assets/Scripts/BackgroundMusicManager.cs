@@ -9,12 +9,6 @@ public class BackgroundMusicManager : MonoBehaviour
     private void Awake() =>
         _backgroundVolumeScroll.onValueChanged.AddListener(SetVolume);
 
-    private void SetVolume(float value) =>
+    public void SetVolume(float value) =>
         _backgroundMusic.volume = value;
-
-    public void PlayMusic() =>
-        _backgroundMusic.Play();
-
-    public void StopMusic() =>
-        _backgroundMusic.Stop();
 }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Audio;
 using UnityEngine.UI;
 
 public class MainMenuMusic : MonoBehaviour
@@ -7,8 +8,12 @@ public class MainMenuMusic : MonoBehaviour
     [SerializeField] private BackgroundMusicManager _backgroundMusicManager;
     [SerializeField] private ButtonMusicManager _buttonMusicManager;
     [SerializeField] private Scrollbar _totalVolumeScroll;
+    [SerializeField] private AudioMixerGroup _audioMixerGroup;
 
     private bool _isPlaying = true;
+    private string _audioMixerName = "MasterVolume";
+    private int _maxVolume = 0;
+    private int _minVolume = -80;
 
     private void Awake()
     {
@@ -20,17 +25,17 @@ public class MainMenuMusic : MonoBehaviour
     {
         if (_isPlaying)
         {
-            _buttonMusicManager.StopAllMusic();
-            _backgroundMusicManager.StopMusic();
+            _audioMixerGroup.audioMixer.SetFloat(_audioMixerName, _minVolume);
             _isPlaying = false;
         }
         else
         {
-            _backgroundMusicManager.PlayMusic();
+            _audioMixerGroup.audioMixer.SetFloat(_audioMixerName, _maxVolume);
             _isPlaying = true;
         }
+            
     }
 
-    private void SetTotalVolume(float value) =>
-        AudioListener.volume = value;
+    private void SetTotalVolume(float value)
+        => _audioMixerGroup.audioMixer.SetFloat(_audioMixerName, Mathf.Log10(value) * 20);
 }

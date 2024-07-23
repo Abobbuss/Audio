@@ -18,29 +18,24 @@ public class ButtonMusicManager : MonoBehaviour
     {
         foreach (var button in _musicButtons)
         {
-            AudioSource audioMixer = button.GetComponent<AudioSource>();
-
-            if (audioMixer != null)
+            if (button.TryGetComponent<AudioSource>(out var audioMixer))
                 audioMixer.Stop();
         }
     }
 
-    private void StartMusic(Button btn)
+    private void StartMusic(Button button)
     {
         StopAllMusic();
-        AudioSource audioMixer = btn.GetComponent<AudioSource>();
-
-        if (audioMixer != null)
+        
+        if (button.TryGetComponent<AudioSource>(out var audioMixer))
             audioMixer.Play();
     }
 
-    private void SetVolume(float value)
+    public void SetVolume(float value)
     {
         foreach (var button in _musicButtons)
         {
-            AudioSource audioMixer = button.GetComponent<AudioSource>();
-
-            if (audioMixer != null)
+            if (button.TryGetComponent<AudioSource>(out var audioMixer))
                 audioMixer.volume = value;
         }
     }
